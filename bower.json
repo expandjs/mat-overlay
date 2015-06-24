@@ -27,6 +27,6 @@
     "mat-paper": "ExpandJS/mat-paper#0.9.1",
     "xp-overlay": "ExpandJS/xp-overlay#0.9.1",
     "xp-targeter-behavior": "ExpandJS/xp-targeter-behavior#0.9.1",
-    "polymer": "Polymer/polymer#^1.0.4"
+    "polymer": "Polymer/polymer#^1.0.0"
   }
 }
