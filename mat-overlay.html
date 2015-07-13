@@ -16,19 +16,22 @@ This element is used to display a material overlay.
 @homepage http://expandjs.com/elements/mat-overlay
 
 @wraps xp-overlay http://expandjs.com/elements/xp-overlay
+@behavior xp-adapter-behavior http://expandjs.com/elements/xp-adapter-behavior
 @behavior xp-targeter-behavior http://expandjs.com/elements/xp-targeter-behavior
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.3
-@dependency mat-paper ExpandJS/mat-paper#0.9.3
-@dependency xp-overlay ExpandJS/xp-overlay#0.9.3
-@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.3
+@dependency expandjs ExpandJS/expandjs#0.9.4
+@dependency mat-paper ExpandJS/mat-paper#0.9.4
+@dependency xp-overlay ExpandJS/xp-overlay#0.9.4
+@dependency xp-adapter-behavior ExpandJS/xp-adapter-behavior#0.9.4
+@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.4
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
 <link rel="import" href="../mat-paper/mat-paper.html">
 <link rel="import" href="../xp-overlay/xp-overlay.html">
+<link rel="import" href="../xp-adapter-behavior/xp-adapter-behavior.html">
 <link rel="import" href="../xp-targeter-behavior/xp-targeter-behavior.html">
 
 <dom-module id="mat-overlay">
@@ -57,7 +60,7 @@ This element is used to display a material overlay.
     </style>
 
     <template>
-        <xp-overlay id="matOverlayAdaptee" auto-center="[[autoCenter]]" auto-hide-disabled="[[autoHideDisabled]]" data="{{data}}" position="[[position]]" showed="{{showed}}" target="{{target}}">
+        <xp-overlay id="matOverlayAdaptee" auto-center="[[autoCenter]]" auto-hide-disabled="[[autoHideDisabled]]" context="[[_computeContext(context)]]" data="{{data}}" position="[[position]]" showed="{{showed}}" target="{{target}}">
             <mat-paper id="matOverlayWrapper" background="[[background]]" brightness="overlay" z="[[z]]">
                 <content id="content"></content>
             </mat-paper>
@@ -72,6 +75,7 @@ This element is used to display a material overlay.
 
             // BEHAVIORS
             behaviors: [
+                Polymer.XPAdapterBehavior,
                 Polymer.XPTargeterBehavior
             ],
 
@@ -93,7 +97,7 @@ This element is used to display a material overlay.
              * Shows the overlay.
              *
              * @method show
-             * @param {Element | string} target
+             * @param {Element | string} [target]
              * @param {*} [data]
              * @returns {Element}
              */
@@ -107,7 +111,7 @@ This element is used to display a material overlay.
              * Toggles the overlay.
              *
              * @method toggle
-             * @param {Element | string} target
+             * @param {Element | string} [target]
              * @param {*} [data]
              * @returns {Element}
              */
@@ -157,6 +161,16 @@ This element is used to display a material overlay.
                 background: {
                     reflectToAttribute: true,
                     type: String,
+                    value: null
+                },
+
+                /**
+                 * The context element.
+                 *
+                 * @attribute context
+                 * @type Element
+                 */
+                context: {
                     value: null
                 },
 
@@ -218,6 +232,20 @@ This element is used to display a material overlay.
                     type: Number,
                     value: 8
                 }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeContext: function (context) {
+                return context || this;
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            ready: function () {
+                this._adapt(this.$.matOverlayAdaptee);
             }
         });
     </script>
