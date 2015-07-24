@@ -7,7 +7,30 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-This element is used to display a material overlay.
+An element used to display Material Design overlays, such as
+[menus](http://www.google.com/design/spec/components/menus.html),
+[dialogs](http://www.google.com/design/spec/components/dialogs.html),
+[pickers](http://www.google.com/design/spec/components/pickers.html) ecc.
+
+__Important__: `<mat-overlay>` needs a `target` to work and align properly. Generally
+the target should be the element that toggles the overlay's view state, such as a
+button, or it can be any other DOM element that acts as an anchor for the overlay's
+positioning (`<body>` in case of dialogs and pickers).
+
+```html
+<mat-icon-button id="myButton" icon="navigation:more-vert" target="myOverlay" toggles-target></mat-icon-button>
+<mat-overlay id="myOverlay" target="myButton">Lorem ipsum...</mat-overlay>
+```
+
+The overlay can be positioned relatively to the `target` using `position`.
+It can also be vertically/horizontally aligned using `auto-center`.
+
+The following snippet will horizontally center the overlay underneath the target.
+
+```html
+<mat-icon-button id="myButton" icon="navigation:more-vert" target="myOverlay" toggles-target></mat-icon-button>
+<mat-overlay id="myOverlay" target="myButton" position="baseline" auto-center>Lorem ipsum...</mat-overlay>
+```
 
 @element mat-overlay
 @description A custom element used to display a Material Design overlay
@@ -15,16 +38,16 @@ This element is used to display a material overlay.
 @group containers
 @homepage http://expandjs.com/elements/mat-overlay
 
-@wraps xp-overlay http://expandjs.com/elements/xp-overlay
-@behavior xp-adapter-behavior http://expandjs.com/elements/xp-adapter-behavior
-@behavior xp-targeter-behavior http://expandjs.com/elements/xp-targeter-behavior
+@adapts xp-overlay /bower_components/xp-overlay/xp-overlay.html
+@behavior xp-adapter-behavior /bower_components/xp-adapter-behavior/xp-adapter-behavior.html
+@behavior xp-targeter-behavior /bower_components/xp-targeter-behavior/xp-targeter-behavior.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.4
-@dependency mat-paper ExpandJS/mat-paper#0.9.4
-@dependency xp-overlay ExpandJS/xp-overlay#0.9.4
-@dependency xp-adapter-behavior ExpandJS/xp-adapter-behavior#0.9.4
-@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.4
+@dependency expandjs ExpandJS/expandjs#0.9.5
+@dependency mat-paper ExpandJS/mat-paper#0.9.5
+@dependency xp-overlay ExpandJS/xp-overlay#0.9.5
+@dependency xp-adapter-behavior ExpandJS/xp-adapter-behavior#0.9.5
+@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.5
 -->
 
 <link rel="import" href="../polymer/polymer.html">
