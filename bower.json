@@ -2,6 +2,7 @@
   "name": "mat-overlay",
   "license": "BSD-3-Clause",
   "version": "0.9.6",
+  "main": "mat-overlay.html",
   "description": "A custom element used to display a Material Design overlay",
   "homepage": "http://expandjs.com/elements/mat-overlay",
   "authors": [
@@ -15,9 +16,6 @@
     "html5",
     "expandjs",
     "web-components"
-  ],
-  "main": [
-    "mat-overlay.html"
   ],
   "ignore": [
     "**/.*"
