@@ -60,35 +60,37 @@ The following snippet will horizontally center the overlay underneath the target
 
 <dom-module id="mat-overlay">
 
-    <style>
-        :host {
-            display: block;
-            overflow: visible;
-            position: absolute;
-        }
-
-        :host #matOverlayAdaptee {
-            margin: 16px;
-        }
-
-        :host #matOverlayAdaptee::shadow > #xpOverlayWrapper {
-            overflow: visible;
-        }
-
-        :host #matOverlayWrapper {
-            border-radius: inherit;
-            height: 100%;
-            overflow: auto;
-            padding: 8px 0;
-        }
-    </style>
-
     <template>
+
+        <style>
+            :host {
+                display: block;
+                overflow: visible;
+                position: absolute;
+            }
+
+            :host #matOverlayAdaptee {
+                margin: 16px;
+            }
+
+            :host #matOverlayAdaptee::shadow > #xpOverlayWrapper {
+                overflow: visible;
+            }
+
+            :host #matOverlayWrapper {
+                border-radius: inherit;
+                height: 100%;
+                overflow: auto;
+                padding: 8px 0;
+            }
+        </style>
+
         <xp-overlay id="matOverlayAdaptee" auto-center="[[autoCenter]]" auto-hide-disabled="[[autoHideDisabled]]" context="[[_computeContext(context)]]" data="{{data}}" position="[[position]]" showed="{{showed}}" target="{{target}}">
             <mat-paper id="matOverlayWrapper" background="[[background]]" brightness="overlay" z="[[z]]">
                 <content id="content"></content>
             </mat-paper>
         </xp-overlay>
+
     </template>
 
     <script>
