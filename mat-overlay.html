@@ -18,7 +18,7 @@ button, or it can be any other DOM element that acts as an anchor for the overla
 positioning (`<body>` in case of dialogs and pickers).
 
 ```html
-<mat-icon-button id="myButton" icon="navigation:more-vert" target="myOverlay" toggles-target></mat-icon-button>
+<mat-icon-button id="myButton" behavior="toggle" icon="navigation:more-vert" target="myOverlay"></mat-icon-button>
 <mat-overlay id="myOverlay" target="myButton">Lorem ipsum...</mat-overlay>
 ```
 
@@ -28,7 +28,7 @@ It can also be vertically/horizontally aligned using `auto-center`.
 The following snippet will horizontally center the overlay underneath the target.
 
 ```html
-<mat-icon-button id="myButton" icon="navigation:more-vert" target="myOverlay" toggles-target></mat-icon-button>
+<mat-icon-button id="myButton" behavior="toggle" icon="navigation:more-vert" target="myOverlay"></mat-icon-button>
 <mat-overlay id="myOverlay" target="myButton" position="baseline" auto-center>Lorem ipsum...</mat-overlay>
 ```
 
@@ -43,10 +43,10 @@ The following snippet will horizontally center the overlay underneath the target
 @behavior xp-targeter-behavior /bower_components/xp-targeter-behavior/xp-targeter-behavior.html
 
 @dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.10
-@dependency mat-paper ExpandJS/mat-paper#0.9.10
-@dependency xp-overlay ExpandJS/xp-overlay#0.9.10
-@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.10
+@dependency expandjs ExpandJS/expandjs#0.9.11
+@dependency mat-paper ExpandJS/mat-paper#0.9.11
+@dependency xp-overlay ExpandJS/xp-overlay#0.9.11
+@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.11
 -->
 
 <link rel="import" href="../polymer/polymer.html">
