@@ -7,12 +7,9 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-An element used to display Material Design overlays, such as
-[menus](http://www.google.com/design/spec/components/menus.html),
-[dialogs](http://www.google.com/design/spec/components/dialogs.html),
-[pickers](http://www.google.com/design/spec/components/pickers.html) ecc.
+A custom element used to display a generic [Material Design overlay](http://www.google.com/design/spec/components/menus.html).
 
-__Important__: `<mat-overlay>` needs a `target` to work and align properly. Generally
+__Important__: `mat-overlay` needs a `target` to work and align properly. Generally
 the target should be the element that toggles the overlay's view state, such as a
 button, or it can be any other DOM element that acts as an anchor for the overlay's
 positioning (`<body>` in case of dialogs and pickers).
@@ -33,60 +30,52 @@ The following snippet will horizontally center the overlay underneath the target
 ```
 
 @element mat-overlay
-@description A custom element used to display a Material Design overlay
-@keywords material design, web app, html5, expandjs, web-components
+@description A custom element used to display a generic Material Design overlay
+@keywords material design, material menu, material dropdown, expandjs, web app, custom elements, web-components
 @group containers
+
 @homepage http://expandjs.com/elements/mat-overlay
 @repository https://github.com/ExpandJS/mat-overlay
 
-@adapts xp-overlay /bower_components/xp-overlay/xp-overlay.html
-@behavior xp-targeter-behavior /bower_components/xp-targeter-behavior/xp-targeter-behavior.html
+@behavior mat-paper-behavior /bower_components/mat-paper/mat-paper-behavior.html
+@behavior xp-overlay-behavior /bower_components/xp-overlay/xp-overlay-behavior.html
 
-@dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.11
-@dependency mat-paper ExpandJS/mat-paper#0.9.11
-@dependency xp-overlay ExpandJS/xp-overlay#0.9.11
-@dependency xp-targeter-behavior ExpandJS/xp-targeter-behavior#0.9.11
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
+@dependency mat-paper ExpandJS/mat-paper#0.10.0
+@dependency xp-overlay ExpandJS/xp-overlay#0.10.0
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
-<link rel="import" href="../mat-paper/mat-paper.html">
-<link rel="import" href="../xp-overlay/xp-overlay.html">
-<link rel="import" href="../xp-targeter-behavior/xp-targeter-behavior.html">
+<link rel="import" href="../mat-paper/mat-paper-behavior.html">
+<link rel="import" href="../mat-paper/mat-paper-styles.html">
+<link rel="import" href="../xp-overlay/xp-overlay-behavior.html">
+<link rel="import" href="../xp-overlay/xp-overlay-styles.html">
 
 <dom-module id="mat-overlay">
 
-    <template>
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles"></style>
+        <style include="xp-overlay-styles"></style>
 
         <style>
-            :host {
-                display: block;
-                overflow: visible;
-                position: absolute;
-            }
-
-            :host #matOverlayAdaptee {
-                margin: 16px;
-            }
-
-            :host #matOverlayAdaptee::shadow > #xpOverlayWrapper {
-                overflow: visible;
-            }
-
-            :host #matOverlayWrapper {
-                border-radius: inherit;
-                height: 100%;
-                overflow: auto;
+            :host .body {
+                box-sizing: border-box;
                 padding: 8px 0;
+            }
+
+            :host-context([cascade]) .body {
+                padding: 16px 0;
             }
         </style>
 
-        <xp-overlay id="matOverlayAdaptee" auto-center="[[autoCenter]]" auto-hide-disabled="[[autoHideDisabled]]" context="[[_computeContext(context)]]" data="{{data}}" position="[[position]]" showed="{{showed}}" target="{{target}}">
-            <mat-paper id="matOverlayWrapper" background="[[background]]" brightness="overlay" z="[[z]]">
-                <content id="content"></content>
-            </mat-paper>
-        </xp-overlay>
+        <div class="wrapper">
+            <div class="body">
+                <content></content>
+            </div>
+        </div>
 
     </template>
 
@@ -98,50 +87,9 @@ The following snippet will horizontally center the overlay underneath the target
 
             // BEHAVIORS
             behaviors: [
-                Polymer.XPTargeterBehavior
+                Polymer.MatPaperBehavior,
+                Polymer.XPOverlayBehavior
             ],
-
-            /*********************************************************************/
-
-            /**
-             * Hides the overlay.
-             *
-             * @method hide
-             * @returns {Element}
-             */
-            hide: function () {
-                var self = this;
-                self.adaptee.hide();
-                return self;
-            },
-
-            /**
-             * Shows the overlay.
-             *
-             * @method show
-             * @param {Element | string} [target]
-             * @param {*} [data]
-             * @returns {Element}
-             */
-            show: function (target, data) {
-                var self = this;
-                self.adaptee.show(target, data);
-                return self;
-            },
-
-            /**
-             * Toggles the overlay.
-             *
-             * @method toggle
-             * @param {Element | string} [target]
-             * @param {*} [data]
-             * @returns {Element}
-             */
-            toggle: function (target, data) {
-                var self = this;
-                self.adaptee.toggle(target, data);
-                return self;
-            },
 
             /*********************************************************************/
 
@@ -149,141 +97,32 @@ The following snippet will horizontally center the overlay underneath the target
             properties: {
 
                 /**
-                 * The adapted element.
+                 * The overlay's brightness.
                  *
-                 * @attribute adaptee
-                 * @type Element
-                 * @notifies
-                 * @readonly
-                 */
-                adaptee: {
-                    notify: true,
-                    readOnly: true,
-                    type: Object,
-                    value: null
-                },
-
-                /**
-                 * If set to true, the overlay is center aligned.
-                 *
-                 * @attribute auto-center
-                 * @type boolean
-                 * @default false
-                 */
-                autoCenter: {
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                 * If set to true, the overlay will not close by clicking outside.
-                 *
-                 * @attribute auto-hide-disabled
-                 * @type boolean
-                 * @default false
-                 */
-                autoHideDisabled: {
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                 * The paper's background color.
-                 *
-                 * @attribute background
+                 * @attribute brightness
                  * @type string
+                 * @default "overlay"
                  */
-                background: {
+                brightness: {
                     reflectToAttribute: true,
                     type: String,
-                    value: null
+                    value: 'overlay'
                 },
 
                 /**
-                 * The context element.
-                 *
-                 * @attribute context
-                 * @type Element
-                 */
-                context: {
-                    type: Object,
-                    value: null
-                },
-
-                /**
-                 * The element's data.
-                 *
-                 * @attribute data
-                 * @type *
-                 * @notifies
-                 */
-                data: {
-                    notify: true,
-                    value: null
-                },
-
-                /**
-                 * The overlay position relative to the target.
-                 *
-                 * 'over' is over the target.
-                 *
-                 * 'aside' is to the side of the target.
-                 *
-                 * 'baseline' is underneath the target.
-                 *
-                 * @attribute position
-                 * @type "aside" | "baseline" | "over"
-                 * @default "over"
-                 */
-                position: {
-                    reflectToAttribute: true,
-                    type: String,
-                    value: 'over'
-                },
-
-                /**
-                 * If set to true, the overlay is showed.
-                 *
-                 * @attribute showed
-                 * @type boolean
-                 * @default false
-                 * @notifies
-                 */
-                showed: {
-                    notify: true,
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                 * The paper's z-axis position.
+                 * The overlay's z-axis position.
                  *
                  * @attribute z
                  * @type number
                  * @default 8
+                 * @notifies
                  */
                 z: {
+                    notify: true,
                     reflectToAttribute: true,
                     type: Number,
                     value: 8
                 }
-            },
-
-            /*********************************************************************/
-
-            // COMPUTER
-            _computeContext: function (context) {
-                return context || this;
-            },
-
-            /*********************************************************************/
-
-            // LISTENER
-            ready: function () {
-                this._setAdaptee(this.$.matOverlayAdaptee);
             }
         });
     </script>
